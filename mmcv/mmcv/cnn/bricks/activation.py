@@ -4,15 +4,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from mmcv.utils import TORCH_VERSION, build_from_cfg, digit_version
+# 引入激活层注册器
 from .registry import ACTIVATION_LAYERS
-
+# 将torch中常用的激活函数类注册进注册器中，可以仅指定module一个参数
 for module in [
         nn.ReLU, nn.LeakyReLU, nn.PReLU, nn.RReLU, nn.ReLU6, nn.ELU,
         nn.Sigmoid, nn.Tanh
 ]:
     ACTIVATION_LAYERS.register_module(module=module)
 
-
+# 装饰器注册Clamp函数
 @ACTIVATION_LAYERS.register_module(name='Clip')
 @ACTIVATION_LAYERS.register_module()
 class Clamp(nn.Module):
